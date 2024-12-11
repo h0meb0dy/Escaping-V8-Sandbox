@@ -1,0 +1,14 @@
+diff --git a/src/base/small-vector.h b/src/base/small-vector.h
+index b1b5d641985..ce91e9d281b 100644
+--- a/src/base/small-vector.h
++++ b/src/base/small-vector.h
+@@ -137,7 +137,9 @@ class SmallVector {
+   }
+ 
+   T& operator[](size_t index) {
++    /*
+     DCHECK_GT(size(), index);
++    */
+     return begin_[index];
+   }
+ 
