@@ -60,50 +60,6 @@ Data array의 bytecode field에 저장된 array는 V8 sandbox 내부에 있기 �
 > [[regex] Check bounds on register access in interpreter](https://chromium.googlesource.com/v8/v8/+/b9349d97fd44aec615307c9d00697152da95a66a) (2024.03.22.)
 > Registers in the interpreter are stored on the stack/heap outside the sandbox. The register index is stored in the bytecode, which is (not yet) in trusted space.
 
-```diff
-diff --git a/src/regexp/regexp-interpreter.cc b/src/regexp/regexp-interpreter.cc
-index 31fe503..13cf076 100644
---- a/src/regexp/regexp-interpreter.cc
-+++ b/src/regexp/regexp-interpreter.cc
-@@ -176,6 +176,7 @@
-                        int output_register_count)
-       : registers_(total_register_count),
-         output_registers_(output_registers),
-+        total_register_count_(total_register_count),
-         output_register_count_(output_register_count) {
-     // TODO(jgruber): Use int32_t consistently for registers. Currently, CSA
-     // uses int32_t while runtime uses int.
-@@ -188,10 +189,17 @@
-     // Initialize the output register region to -1 signifying 'no match'.
-     std::memset(registers_.data(), -1,
-                 output_register_count * sizeof(RegisterT));
-+    USE(total_register_count_);
-   }
- 
--  const RegisterT& operator[](size_t index) const { return registers_[index]; }
--  RegisterT& operator[](size_t index) { return registers_[index]; }
-+  const RegisterT& operator[](size_t index) const {
-+    SBXCHECK_LT(index, total_register_count_);
-+    return registers_[index];
-+  }
-+  RegisterT& operator[](size_t index) {
-+    SBXCHECK_LT(index, total_register_count_);
-+    return registers_[index];
-+  }
- 
-   void CopyToOutputRegisters() {
-     MemCopy(output_registers_, registers_.data(),
-@@ -202,6 +210,7 @@
-   static constexpr int kStaticCapacity = 64;  // Arbitrary.
-   base::SmallVector<RegisterT, kStaticCapacity> registers_;
-   RegisterT* const output_registers_;
-+  const int total_register_count_;
-   const int output_register_count_;
- };
-```
-
-`RawMatch()`에서 `registers`에 접근할 때 bounds check가 추가되었다.
-
 ## References
 
 - [V8 Sandbox escape via regexp - Chromium Issues](https://issues.chromium.org/issues/330404819)
