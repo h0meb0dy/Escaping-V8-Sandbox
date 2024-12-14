@@ -2,8 +2,8 @@
 
 # install depot_tools
 git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git ~/depot_tools
-echo "export PATH=\$HOME/depot_tools:\$PATH" >> ~/.zshrc
-echo "export NINJA_SUMMARIZE_BUILD=1" >> ~/.zshrc
+echo "\nexport PATH=\$HOME/depot_tools:\$PATH
+export NINJA_SUMMARIZE_BUILD=1" >> ~/.zshrc
 source ~/.zshrc
 
 # get v8

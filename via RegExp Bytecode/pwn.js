@@ -83,7 +83,7 @@ let cmd = [0x6e69622f, 0x0068732f];
 // register index of return address
 let idx = RELEASE ? 82 : 72;
 
-// get binary base
+// get binary base address
 mov(0, idx);
 mov(1, idx + 1);
 add(0, RELEASE ? -0xa2cf40 : -0x738dbd7);
