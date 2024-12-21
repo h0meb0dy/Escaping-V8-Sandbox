@@ -99,6 +99,6 @@ $ python3 wasm.py
 
 ## Patch
 
-> [wasm - Introduce WasmTrustedInstanceData](https://chromium.googlesource.com/v8/v8/+/59acab802a319da23c1c005e062fbc2bab4d348b) (2024.01.04.)
+> [[wasm] Introduce WasmTrustedInstanceData](https://chromium.googlesource.com/v8/v8/+/59acab802a319da23c1c005e062fbc2bab4d348b) (2024.01.04.)
 >
 > This CL moves most data from the WasmInstanceObject to a new WasmTrustedInstanceData. As the name suggests, this new object is allocated in the trusted space and can hence hold otherwise-unsafe data (like direct pointers). As the Wasm instance was still storing some unsafe pointers, this CL closes holes in the V8 sandbox, and allows us to land follow-up refactorings to remove more indirections for sandboxing (potentially after moving more data structures to the trusted space).
